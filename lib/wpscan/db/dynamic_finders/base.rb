@@ -11,8 +11,11 @@ module WPScan
 
         # @return [ Hash ]
         def self.db_data
-          # true allows aliases to be loaded
-          @db_data ||= YAML.safe_load(File.read(db_file), [Regexp], [], true)
+          @db_data ||= if Gem::Version.new(Psych::VERSION) >= Gem::Version.new('3.1.0.pre1') # Ruby 2.6
+                         YAML.safe_load(File.read(db_file), permitted_classes: [Regexp])
+                       else
+                         YAML.safe_load(File.read(path), [Regexp])
+                       end
         end
 
         # @return [ Array<Symbol> ]
