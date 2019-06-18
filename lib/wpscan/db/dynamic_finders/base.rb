@@ -14,7 +14,7 @@ module WPScan
           @db_data ||= if Gem::Version.new(Psych::VERSION) >= Gem::Version.new('3.1.0.pre1') # Ruby 2.6
                          YAML.safe_load(File.read(db_file), permitted_classes: [Regexp])
                        else
-                         YAML.safe_load(File.read(path), [Regexp])
+                         YAML.safe_load(File.read(db_file), [Regexp])
                        end
         end
 
